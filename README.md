@@ -23,3 +23,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ##this is 2019.3.4 edit
 ##this is GitHub edit
+##hh this is reset test
