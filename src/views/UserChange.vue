@@ -1,22 +1,11 @@
 <template>
   <div class="divmanage">
     <el-row class="tac">
-      <el-col :span="4">
-        <el-menu default-active="2" class="el-menu-vertical-demo" router>
-          <el-menu-item index="1" route=foo/change>
-            <i class="el-icon-edit"></i>
-            <span slot="title">修改用户信息</span>
-          </el-menu-item>
-          <el-menu-item index="2" route=foo/message>
-            <i class="el-icon-message"></i>
-            <span slot="title">我的消息</span>
-          </el-menu-item>
-          <el-menu-item index="3" route=foo/assets>
-            <i class="el-icon-sold-out"></i>
-            <span slot="title">我的资产</span>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
+      <!--这是左侧固定的个人管理导航span="20" -->
+      <user-change-right></user-change-right>
+      <!--导航结束-->
+
+      <!--这是每个信息管理的内容开始-->
       <el-col :span="20">
         <div class="rightchange">
           <p>修改用户信息</p><br>
@@ -43,6 +32,7 @@
 
 
       </el-col>
+      <!--模块内容结束-->
     </el-row>
   </div>
 
@@ -51,8 +41,14 @@
 </template>
 
 <script>
+  // <!--使用本项目内的组件-->
+  import userChangeRight from './../components/user-change-right'
+
     export default {
         name: "UserChange",
+      components: {
+        userChangeRight
+      },
       data(){
         var validatePass = (rule, value, callback) => {
           if (value === '') {

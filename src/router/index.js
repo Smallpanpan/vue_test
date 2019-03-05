@@ -35,11 +35,7 @@ const router = new Router({
       name: 'GoodsSelect',
       component: GoodsSelect
     },
-    // {
-    //   path: '/',
-    //   name: 'CarBook',
-    //   component: CarBook
-    // },
+
     {
       path:'/NavHeadertest',
       name:'NavHeadertest',
@@ -98,19 +94,33 @@ const router = new Router({
       path:'/up',
       component:up
     },
-    { path: '/change', component:UserChange },
+    // { path: '/change', component:UserChange },
+    // {
+    //   path:'/UserManage/:id',
+    //   name:'UserManage',
+    //   component:UserManage,
+    //   children:[
+    //       // { path: '', component: UserHome },
+    //     { path: 'change', component:UserChange },
+    //     { path: 'assets', component:UserAssets},
+    //     { path: 'message', component:UserMessage}
+    //   ]
+    // },
+    //
     {
-      path:'/UserManage/:id',
+      path:'/UserManage',
       name:'UserManage',
-      component:UserManage,
-      meta: { requiresAuth: true },
-      children:[
-          // { path: '', component: UserHome },
-        { path: 'change', component:UserChange },
-        { path: 'assets', component:UserAssets},
-        { path: 'message', component:UserMessage}
-      ]
+      component:UserManage
     },
+    {
+      path:'/change',
+      name:'UserChange',
+      component:UserChange
+    },
+
+
+
+
   ]
 });
 router.beforeEach((to, from, next) => {
