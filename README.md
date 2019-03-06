@@ -23,4 +23,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ##this is 2019.3.4 edit
 ##this is GitHub edit
-##thi is edit in rib 2019.3.5
+##this is edit in rib 2019.3.5

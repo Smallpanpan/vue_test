@@ -94,28 +94,21 @@ const router = new Router({
       path:'/up',
       component:up
     },
-    // { path: '/change', component:UserChange },
-    // {
-    //   path:'/UserManage/:id',
-    //   name:'UserManage',
-    //   component:UserManage,
-    //   children:[
-    //       // { path: '', component: UserHome },
-    //     { path: 'change', component:UserChange },
-    //     { path: 'assets', component:UserAssets},
-    //     { path: 'message', component:UserMessage}
-    //   ]
-    // },
-    //
+
     {
-      path:'/UserManage',
-      name:'UserManage',
-      component:UserManage
+      path:'/message',
+      name:'UserMessage',
+      component:UserMessage
     },
     {
       path:'/change',
       name:'UserChange',
       component:UserChange
+    },
+    {
+      path:'/assets',
+      name:'UserAssets',
+      component:UserAssets
     },
 
 
