@@ -21,7 +21,7 @@
           </el-row>
           <!--开始展示优惠券-->
           <el-row :gutter="20">
-            <el-col :span="10" class="sign"><strong>我的优惠券</strong></el-col>
+            <el-col :span="14" class="sign"><strong>我的优惠券</strong></el-col>
             <el-col :span="10">
               <el-button>全部</el-button>
               <el-button>未使用</el-button>
@@ -34,13 +34,15 @@
             <el-card shadow="always">
               <div class="selected">
 
-                  <div class="amount">￥ 100</div>
-                  <div class="effective">有效期<br/>2019-03-06至2019-06-04</div>
+                <div class="amount"><span>￥</span>{{discountM}}</div>
+                <div class="effective">有效期<br/>{{stardate}}至{{enddate}}</div>
 
-                <div class="effective-buttom">满2天租金及以上可用，不能同其他类型优惠券共同使用</div>
+                <div class="effective-buttom">{{ruledepict}}</div>
               </div>
             </el-card>
           </el-col>
+
+
 
 
 
@@ -72,7 +74,13 @@
         usergrade:"白金卡",                        //用户等级段位
         points:"60",                                //用户的积分
         couponnum:"10",                           //优惠券数量
-        money:"32.6"                               //账户余额
+        money:"32.6",                               //账户余额
+      //  优惠券接口参数
+        discountM:"100",               //优惠的面值
+        stardate:"2019-03-06",         //优惠开始时间
+        enddate:"2019-06-04",           //优惠结束时间
+        ruledepict:"基本租金超过200元可用，不能同其他类型优惠券共同使用",                  //关于优惠的描述
+        ruleM:"200",                    //关于优惠的最低使用价格
 
       }
     },
@@ -114,7 +122,6 @@
     margin: 20px 0px 40px 0px;
 
   }
-
   /*卡片开始类型*/
   .selected {
     width: 291px;
@@ -126,27 +133,38 @@
     flex-wrap:  wrap;       /*设置为换行*/
   }
   .amount {
-    width:69px;
-    height:30px;
-    margin:30px 0 0 0px;
+    width:93px;
+    height:45px;
+    margin:40px 0 0 14px;
     overflow:hidden;
-    text-align:center;
-    font-size:12px;
-
+    text-align:left;
+    font-size:36px;
+    color:#fff;
   }
+  .amount span{
+    font-size: 18px;
+  }
+
+
   .effective {
-    width:148px;
-     height:30px;
-    margin:16px 0px 0 50px;
+    width:160px;
+    height:35px;
+    margin:48px 0px 0 10px;
     letter-spacing:0.5px;
-    font-size:2px;
+    font-size:12px;
+    text-align:left;
+    color: #fff;
   }
   .effective-buttom{
-    height:20px;
+    height:18px;
     width:250px;
     overflow:hidden;
-    font-size:10px;
-    margin: 17px 0px 0px 11px;
+    font-size:13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 13px 0px 0px 18px;
+    color:#00b6b6 ;
 
   }
+
 </style>
