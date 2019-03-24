@@ -87,7 +87,7 @@
 
             <baidu-map class="map" :center="{lng:lng, lat:lat}" :zoom="15">
               <bm-marker :position="{lng:lng, lat:lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
-                <bm-label :content=site[2] :labelStyle="{color: 'red', fontSize : '14px'}" :offset="{width: -25, height: 20}"/>
+                <bm-label :content=storesite :labelStyle="{color: 'red', fontSize : '14px'}" :offset="{width: -25, height: 20}"/>
               </bm-marker>
             </baidu-map>
 
@@ -126,37 +126,15 @@
       data(){
 
             return{
-              lng: 113.680837,
-              lat:24.78101,        //店面坐标
+              lng: '',
+              lat:'',        //店面坐标
+              storesite:'',       //店面名字
               loadtest:false,
               value_price:[100,500],        //价格选择渲染
               //时间地点选着器
               value:'',
               site:'',
-              options: [{
-                value: 'zhinan',
-                label: 'test',
-              },
-                {
-                  value: 'guangzhou',
-                  label: '广州',
-                  children:[
-                    {
-                      value: 'shejiyuanze',
-                      label: '海珠区',
-                      children:[
-                        {
-                          value: '海珠广场店',
-                          label: '海珠广场店'
-                        },{
-                          value: '1001',
-                          label: '韶关市韶关学院店'
-                        }
-                      ]
-                    },
-
-                  ]
-                }],
+              options: [],
 
 
 
@@ -176,12 +154,16 @@
             }
       },
       mounted(){
+        this.playup();
       let site=this.$route.params.selectsite;
       if(site.value.length>0){
         this.site=site.site;
         this.postCarlist(site.site,site.value);
 
       }
+      },
+      updated(){
+        this.playup();
       },
       created() {
         // postCarlist()
@@ -200,6 +182,7 @@
 
 
       },
+
       methods:{
           //条件渲染函数，选择指定车型按钮出现指定车辆
           choiceCar(car){
@@ -221,10 +204,58 @@
             }
           },
 
+        playup(){
+             let num1 = sessionStorage.getItem('num1');
+            let num2 = sessionStorage.getItem('num2');
+             let store = JSON.parse(sessionStorage.getItem('store'));
+             let city = JSON.parse(sessionStorage.getItem('city'));
+             let region = JSON.parse(sessionStorage.getItem('region'));
+
+              let p =0;
+              for(let i=0;i<num1;i++){
+                //   最外层循环，每次循环完毕将结果push进最外层数组
+                let temp = { value: city[i].name, label: city[i].name ,children:"" };
+                this.options.push(temp);
+                let tm =[];
+                for(let n=0;n<region[i+1].length;n++)
+                  // //第二层循环，为上层的children赋值，循环次数是二维数组最内层的子项个数
+                {
+
+                  tm.push({ value: region[i+1][n], label:region[i+1][n],children:""  });
+                  let st = [];
+                  for(let m =0;m<store[p].length;m++)
+                  {
+                    st.push( {
+                      value: store[p][m].id,
+                      label: store[p][m].car_store_site
+                    });
+                  }
+                  p = p+1;
+                  tm[n]['children'] = st;
+                }
+                this.options[i]['children'] = tm;
+              }
+             console.log(this.options);
+        },
 
 
 
         postCarlist(site,stime){
+              let st = JSON.parse(sessionStorage.getItem('store'));
+              for(let i=0;i<st.length;i++)
+              {
+                for(let n=0;n<st[i].length;n++)
+                {
+                  if(st[i][n].id==site[2]){
+                    this.storesite =st[i][n].car_store_site;
+                    this.lng=st[i][n].lng ;
+                    this.lat=st[i][n].lat;
+                    break;
+                  }
+
+                }
+
+              }
             if(site.length == 0||stime.length == 0){    //验证输入数据是否为空
               this.$message({
                 type: 'warning',
@@ -248,6 +279,9 @@
                   startTime:stime[0],
                   endTime:stime[1],
                 }).then(response => {
+                  sessionStorage.setItem("startTime",stime[0]);     //记住选着时间
+                  sessionStorage.setItem("endTime",stime[1]);
+                  sessionStorage.setItem("pickUp",site[2]);
                   let res = response.data;// 现在后台返回的是一组汽车信息数组（这是二维数组）[{"car_brand":"奥迪","car_series":"Q3"},{"car_brand":"奥迪1","car_series":"Q5"},]
                   if(res.status==1){
                     this.$alert('你选择时段的车车已经租完啦！', '提示', {   //返回其他情况
@@ -269,7 +303,7 @@
                             car_volume:res[i].car_volume,
                             car_drive:res[i].car_drive,
                             car_Airbag:res[i].car_Airbag,
-                            car_id:res[i].id,
+                            car_id:res[i].carid,
                             carshow:true,
                             carprice:true,
 
@@ -313,7 +347,75 @@
         },
 
       },
+      updated() {
+        if(this.easyDataOption0.data.length>0){       //把上一次请求的数据清空
+          let len = this.easyDataOption0.data.length;
+          this.easyDataOption0.data.splice(0,len);
+        };
+        //每次更新页面所要做的操作（重选汽车）
+        axios.post('/api/public/Car/selectcar',{
+          pickUp:sessionStorage.getItem("pickUp"),
+          startTime:sessionStorage.getItem("startTime"),
+          endTime:sessionStorage.getItem("endTime"),
+        }).then(response => {
+          let res = response.data;// 现在后台返回的是一组汽车信息数组（这是二维数组）[{"car_brand":"奥迪","car_series":"Q3"},{"car_brand":"奥迪1","car_series":"Q5"},]
+          if(res.status==1){
+            this.$alert('你选择时段的车车已经租完啦！', '提示', {   //返回其他情况
+              confirmButtonText: '确定'
+            });
+          }else {
+            if(res[0].car_seat){
+              for(var i = 0,l = res.length; i < l; i++){
+                this.easyDataOption0.data.push(                               //如果符合条件则将返回的数据渲染到前台数组中
+                  {
+                    car_photo_url:res[i].car_photo_url,
+                    car_brand :res[i].system_id,
+                    car_series:res[i].car_series,
+                    car_type:res[i].car_type,
+                    car_displacement:res[i].car_displacement,
+                    car_seat:res[i].car_seat,
+                    car_daily_price:res[i].car_daily_price,
+                    car_fuel:res[i].car_fuel,
+                    car_volume:res[i].car_volume,
+                    car_drive:res[i].car_drive,
+                    car_Airbag:res[i].car_Airbag,
+                    car_id:res[i].carid,
+                    carshow:true,
+                    carprice:true,
 
+                    //   ["system_id"] => 车系
+                    // ["id"] => 车系ID
+                    // ["car_color"] => 车颜色
+                    // ["car_production_time"] => 出厂时间
+                    // ["car_photo_url"] => 图片URL
+                    // ["car_type"] => 汽车类型
+                    // ["car_seat"] => 汽车座位
+                    // ["car_fuel"] => 汽车燃油
+                    // ["car_displacement"] => 汽车功率
+                    // ["car_daily_price"] => 日租价格
+                    // ["car_monthly_price"] => 月租价格
+                    // ["car_volume"] =>续航能力
+                    // ["car_drive"] => 驱动类型
+                    // ["car_Airbag"] => 安全气囊
+                    // ["carid"] => 汽车唯一ID
+                  }
+                );
+
+                // carArr是临时一维数组，每次取回res中的子数组，然后carArr push 进data（data也是二维数组）
+
+              }
+            }else{
+              this.$message({
+                type: 'error',
+                message: '连接服务器失败！'
+              });
+            }
+
+
+          }
+
+        })
+      },
     }
 </script>
 

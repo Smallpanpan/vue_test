@@ -7,8 +7,8 @@
        </el-col >
        <el-col :xs="0" :sm="8" :md="8" :lg="5" :xl="4">
          <div class="router-link-active">
-           <router-link to="/CarsList" ><el-button class="Navbutton">首页</el-button></router-link>
-           <router-link to="/MyOrder"><el-button class="Navbutton">使用指南</el-button></router-link>
+           <router-link to="/" ><el-button class="Navbutton">首页</el-button></router-link>
+           <router-link to="/404"><el-button class="Navbutton">使用指南</el-button></router-link>
          </div>
        </el-col>
        <el-col :xs="20" :sm="14" :md="{span:13, offset:3}" :lg=" {span:9, offset:3}" :xl=" {span: 6, offset: 6}">
@@ -104,7 +104,7 @@
 
 </el-badge>
   <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>信息管理</el-dropdown-item>
+    <router-link to="/change">   <el-dropdown-item>信息管理</el-dropdown-item> </router-link>
     <el-dropdown-item>我的资产</el-dropdown-item>
     <el-dropdown-item @click.native="loginOut">退出登录</el-dropdown-item>
   </el-dropdown-menu>
@@ -358,16 +358,7 @@
         }),
         //得到前端的cookie
 
-        //测试修改选择租车时间
-        // changetime(){
-        //   var stime = new Date();
-        //   stime.setFullYear(2008,7,9 )
-        // this.cstartTime(stime);
-        // this.cendTime(etime);
-        // let site = '韶关市韶关学院店';
-        // this.ccarSite(site);
-        // },
-        //测试
+
 
           //自动登录要做的操作
           checklogin(){
@@ -398,6 +389,7 @@
 
               if(res.status=='1'){   //显示登录结果
                 //写store
+                localStorage.setItem("uid",res.u_id);
                 this.addname(res.name);
                 this.adduid(res.u_id);
                 this.ilogin();
@@ -493,6 +485,7 @@
             }else {
               if(res.status=='1'){   //显示登录结果
                 //写store
+                localStorage.setItem("num",this.ruleForm2.num);
                 this.dialogFormVisible = false;
                 this.addname(res.name);
                 this.adduid(res.u_id);

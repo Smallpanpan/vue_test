@@ -16,7 +16,7 @@
                 <span>驱动方式:{{item.car_drive}} &nbsp&nbsp&nbsp 气囊数量:{{item.car_Airbag}}<br/></span>
                 <span>总价格:￥{{item.car_daily_price}}<br/></span>
                 <p><br/></p>
-                <el-button>马上预定</el-button>
+                <router-link to="/MyOrder"><el-button @click="toOrder(item.car_id)">马上预定</el-button></router-link>
               </div>
             </div>
           </el-col>
@@ -53,7 +53,12 @@ export default {
   mounted() {},
   watch: {},
   computed: {},
-  methods: {}
+  methods: {
+    toOrder(carid){
+    //  提交订单储存的信息
+      sessionStorage.setItem("carid",carid);
+    }
+  }
 }
 </script>
 
