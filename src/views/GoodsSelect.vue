@@ -129,21 +129,22 @@
 
       methods:{
         postdiscount(){
-          axios.get('/api/public/Base/readposter').then(response => {
+          axios.get('/api/car/Base/readposter').then(response => {
             let res = response.data;
-            if(res.status==0){
-            }else {
-              for(var i = 0,l = res.length; i < l; i++){
-                this.easyDataOption.data.push(                               //如果符合条件则将返回的数据渲染到前台数组中
-                  {
-                    dis_photo_url:res[i].car_photo_url,     //图片接口
-                    title:res[i].title,
-                    page:res[i].page,
-                    src:res[i].car_photo_url2
-                  }
-                );
-              }
+            let po =res.poster;
+
+
+            for(var i = 0,l = po.length; i < l; i++){
+              this.easyDataOption.data.push(                               //如果符合条件则将返回的数据渲染到前台数组中
+                {
+                  dis_photo_url:po[i].car_photo_url,     //图片接口
+                  title:po[i].title,
+                  page:po[i].page,
+                  src:po[i].car_photo_url2
+                }
+              );
             }
+
           })
         },
         postCarlist(site,stime){

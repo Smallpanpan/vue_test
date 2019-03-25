@@ -478,13 +478,14 @@
           let pwd = md5(this.ruleForm2.num+md5(this.ruleForm2.pass));
           let pwdd = pwd+timestamp;
           let pwd1 = md5(pwdd);
-          axios.post('/api/public/user/login',{
+          axios.post('/api/car/user/login',{
             num:this.ruleForm2.num, //账号
             userPwd:pwd1,  //密码
             checkCcookie:this.ruleForm2.delivery, //是否写cookie
 
           }).then(response => {         //用户名和密码将转为json传到后台接口
             let res = response.data;   //用res承接返回后台的json文件(像使用数组那样)
+            console.log(res);
             if(res.checklogin==-1){
               this.$message({
                 type: 'warning',

@@ -16,7 +16,7 @@ module.exports = {
     //axios跨域路径编写
     proxyTable: {
       '/api':{        //如果遇到/api则拦截地址跳转
-        target:'http://localhost:8889',     //将/api 替换成设置的跨域转换地址
+        target:'http://localhost:8880/hisi/public/admin.php',     //将/api 替换成设置的跨域转换地址
         changeOrigin:true,
         pathRewrite:{
           '^/api':''
