@@ -2,16 +2,13 @@
   <div class="divmanage">
     <el-row class="tac">
       <el-col :span="4">
-        <el-menu default-active="2" class="el-menu-vertical-demo" router>
-          <el-menu-item index="1" route=foo/change>
+        <el-menu default-active="1" class="el-menu-vertical-demo" router>
+          <el-menu-item index="1" route=/UserChange>
             <i class="el-icon-edit"></i>
             <span slot="title">修改用户信息</span>
           </el-menu-item>
-          <el-menu-item index="2" route=foo/message>
-            <i class="el-icon-message"></i>
-            <span slot="title">我的消息</span>
-          </el-menu-item>
-          <el-menu-item index="3" route=foo/assets>
+
+          <el-menu-item index="2" route=/UserAssets>
             <i class="el-icon-sold-out"></i>
             <span slot="title">我的资产</span>
           </el-menu-item>

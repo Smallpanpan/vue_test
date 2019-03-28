@@ -130,7 +130,7 @@
 
       methods:{
         postdiscount(){
-          axios.get('/api/public/Base/readposter').then(response => {
+          axios.get('/api/Base/readposter').then(response => {
             let res = response.data;
             let poster = res.poster;
             let store = res.store;

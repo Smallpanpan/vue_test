@@ -1,10 +1,10 @@
 <template>
-    <p>this is Menage</p>
+  <p>this is repair</p>
 </template>
 
 <script>
     export default {
-        name: "UserMessage"
+        name: "UserRepair"
     }
 </script>
 

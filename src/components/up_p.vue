@@ -14,7 +14,7 @@
     },
     methods: {
       post(){
-        axios.post('api/public/User/posttest',{name:'pan',pass:'123'}).then(response=>{
+        axios.post('/api/User/posttest',{name:'pan',pass:'123'}).then(response=>{
           let res = response.data;
           console.log(res.mess);
         })

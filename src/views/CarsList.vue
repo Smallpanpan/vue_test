@@ -274,7 +274,7 @@
                   let len = this.easyDataOption0.data.length;
                   this.easyDataOption0.data.splice(0,len);
                 };
-                axios.post('/api/public/Car/selectcar',{
+                axios.post('/api/Car/selectcar',{
                   pickUp:site[2],
                   startTime:stime[0],
                   endTime:stime[1],
@@ -353,7 +353,7 @@
           this.easyDataOption0.data.splice(0,len);
         };
         //每次更新页面所要做的操作（重选汽车）
-        axios.post('/api/public/Car/selectcar',{
+        axios.post('/api/Car/selectcar',{
           pickUp:sessionStorage.getItem("pickUp"),
           startTime:sessionStorage.getItem("startTime"),
           endTime:sessionStorage.getItem("endTime"),

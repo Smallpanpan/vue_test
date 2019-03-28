@@ -217,7 +217,7 @@
         //加载订单信息
         downloadMessage(start,end,cId,id,sid)
         {
-            axios.post('/api/public/Car/myorder',{
+            axios.post('/api/Car/myorder',{
               startTime:start,
               endTime:end,
               carId:cId,

@@ -104,8 +104,8 @@
 
 </el-badge>
   <el-dropdown-menu slot="dropdown">
-    <router-link to="/change">   <el-dropdown-item>信息管理</el-dropdown-item> </router-link>
-    <el-dropdown-item>我的资产</el-dropdown-item>
+    <router-link to="/UserChange">  <el-dropdown-item>账号管理</el-dropdown-item> </router-link>
+    <router-link to="/UserAssets"> <el-dropdown-item>我的资产</el-dropdown-item> </router-link>
     <el-dropdown-item @click.native="loginOut">退出登录</el-dropdown-item>
   </el-dropdown-menu>
 </el-dropdown>
@@ -115,10 +115,8 @@
   <el-button round size="medium">我的订单</el-button>
 </el-badge>
   <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>订单进度</el-dropdown-item>
-    <el-dropdown-item>订单评价</el-dropdown-item>
-    <el-dropdown-item>投诉维修</el-dropdown-item>
-    <el-dropdown-item>历史订单</el-dropdown-item>
+    <router-link to="/UserRepair"><el-dropdown-item>投诉维修</el-dropdown-item></router-link>
+   <router-link to="/UserOrder"><el-dropdown-item>历史订单</el-dropdown-item> </router-link>
   </el-dropdown-menu>
 </el-dropdown>
   </span>
@@ -379,7 +377,7 @@
             let pwdd = pwd+timestamp;
             let pwd1 = md5(pwdd);
 
-          axios.post('/api/public/user/login',{
+          axios.post('/api/user/login',{
             num:cookienum, //账号
             userPwd:pwd1,  //密码
             checkCcookie:this.ruleForm2.delivery,
@@ -403,7 +401,7 @@
         loginOut(){
 
         //  清除cookie 传输给后台清除cookie
-          axios.post('/api/public/user/loginout').then(response => {
+          axios.post('/api/user/loginout').then(response => {
 
           }),
 
@@ -434,7 +432,7 @@
         submitinfo(){
 
           let pwd = md5(this.ruleForm1.num+md5(this.ruleForm1.pass));
-          axios.post('/api/public/User/register',{
+          axios.post('/api/User/register',{
             num: this.ruleForm1.num,
             name: this.ruleForm1.name,
             code: this.ruleForm1.code,
@@ -470,7 +468,7 @@
           let pwd = md5(this.ruleForm2.num+md5(this.ruleForm2.pass));
           let pwdd = pwd+timestamp;
           let pwd1 = md5(pwdd);
-          axios.post('/api/public/user/login',{
+          axios.post('/api/user/login',{
             num:this.ruleForm2.num, //账号
             userPwd:pwd1,  //密码
             checkCcookie:this.ruleForm2.delivery, //是否写cookie
@@ -636,5 +634,10 @@
     background-color: #fff;
     color:#00b6b6;
   }
-
+  a {
+    text-decoration: none;
+  }
+  .router-link-active {
+    text-decoration: none;
+  }
 </style>

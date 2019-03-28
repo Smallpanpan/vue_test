@@ -17,9 +17,8 @@ const MyOrder = () => import('@/views/MyOrder')
 const error = () => import('@/views/404')
 const UserAssets = () => import('@/views/UserAssets')
 const UserChange = () => import('@/views/Userchange')
-const UserManage = () => import('@/views/UserManage')
-const UserMessage = () => import('@/views/UserMessage')
-const UserHome = () => import('@/views/UserHome')
+const UserOrder = () => import('@/views/UserOrder')
+const UserRepair = () => import('@/views/UserRepair')
 const up = () => import('@/components/up_p')
 // import GoodsSelect from '@/views/GoodsSelect'
 
@@ -104,19 +103,30 @@ const router = new Router({
       path:'/up',
       component:up
     },
-    { path: '/change', component:UserChange },
     {
-      path:'/UserManage/:id',
-      name:'UserManage',
-      component:UserManage,
-      meta: { requiresAuth: true },
-      children:[
-          // { path: '', component: UserHome },
-        { path: 'change', component:UserChange },
-        { path: 'assets', component:UserAssets},
-        { path: 'message', component:UserMessage}
-      ]
+      path:'/UserChange',
+      name:'UserChange',
+      component:UserChange
     },
+    {
+      path:'/UserAssets',
+      name:'UserAssets',
+      component:UserAssets
+    },
+    {
+      path:'/UserOrder',
+      name:'UserOrder',
+      component:UserOrder
+    },
+    {
+      path:'/UserRepair',
+      name:'UserRepair',
+      component:UserRepair
+    },
+
+
+    { path: '/change', component:UserChange },
+
   ]
 });
 router.beforeEach((to, from, next) => {
