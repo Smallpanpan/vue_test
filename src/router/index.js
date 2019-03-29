@@ -10,6 +10,9 @@ import testlogin from '@/components/testlogin'
 // import nxDataCard from '@/Modal/nx-data-card'
 import GoodsSelect from '@/views/GoodsSelect'
 import fail from '@/views/404'
+import myhisorder from '@/views/myhisorder'
+import Repair from '@/views/Repair'
+
 import store from '@/store/store'
 
 const CarsList = () => import('@/views/CarsList')       //实现懒加载（既触发到这个路由才加载这个组件）
@@ -122,6 +125,16 @@ const router = new Router({
       path:'/UserRepair',
       name:'UserRepair',
       component:UserRepair
+    },
+    {
+      path:'/myhisorder',
+      name:'myhisorder',
+      component:myhisorder
+    },
+    {
+      path:'/Repair',
+      name:'Repair',
+      component:Repair
     },
 
 
