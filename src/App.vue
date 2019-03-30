@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-     <NavHeader></NavHeader>  <!-- 顶部导航 -->
-   <div class="router"></div>
-    <transition name="el-fade-in-linear">
-    <router-view  class="app-router-view"></router-view>
-    </transition>
-    <NavBottom></NavBottom>   <!-- 底部导航 -->
+    <div class="wrapper">
+      <NavHeader></NavHeader>  <!-- 顶部导航 -->
+      <div class="router"></div>
+      <transition name="el-fade-in-linear">
+        <router-view  class="app-router-view"></router-view>
+      </transition>
+    </div>
+
+    <div class="footer">
+      <NavBottom></NavBottom>   <!-- 底部导航 -->
+    </div>
+
   </div>
 </template>
 
@@ -30,6 +36,7 @@ export default {
   /*color: #ffffff;*/
   margin: 0px;
   transition: all 1s;
+  height:100%;
 
 }
 *{
@@ -55,7 +62,7 @@ export default {
 }
 
 </style>
-<style type="text/css">
+<style scoped>
   .icon {
     font-size: 50px;
     width: 1em; height: 1em;
@@ -63,4 +70,5 @@ export default {
     fill: currentColor;
     overflow: hidden;
   }
+
 </style>

@@ -20,8 +20,6 @@ const MyOrder = () => import('@/views/MyOrder')
 const error = () => import('@/views/404')
 const UserAssets = () => import('@/views/UserAssets')
 const UserChange = () => import('@/views/Userchange')
-const UserOrder = () => import('@/views/UserOrder')
-const UserRepair = () => import('@/views/UserRepair')
 const up = () => import('@/components/up_p')
 // import GoodsSelect from '@/views/GoodsSelect'
 
@@ -116,16 +114,7 @@ const router = new Router({
       name:'UserAssets',
       component:UserAssets
     },
-    {
-      path:'/UserOrder',
-      name:'UserOrder',
-      component:UserOrder
-    },
-    {
-      path:'/UserRepair',
-      name:'UserRepair',
-      component:UserRepair
-    },
+
     {
       path:'/myhisorder',
       name:'myhisorder',

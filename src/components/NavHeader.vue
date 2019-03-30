@@ -2,7 +2,7 @@
  <div class="Navdiv">
      <el-row>
        <el-col :xs="0" :sm="4" :md="3" :lg=" {span:2.5, offset:2}" :xl="4">
-         <a href="http://localhost:8087/Hellwo"><img src="./../assets/nav-ico.png" alt="图片加载失败" width="140" height="80"></a>
+         <a href="http://localhost:8087"><img src="./../assets/nav-ico.png" alt="图片加载失败" width="140" height="80"></a>
 
        </el-col >
        <el-col :xs="0" :sm="8" :md="8" :lg="5" :xl="4">
@@ -99,7 +99,7 @@
          <span v-else class="rightNav" >
        <span  class="navHello"><p>您好！{{$store.state.userName}}</p></span>
     <el-dropdown trigger="hover">
-<el-badge value="new" class="item">
+<el-badge class="item">
   <el-button round size="medium" >我的账户</el-button>
 
 </el-badge>
@@ -111,12 +111,12 @@
 </el-dropdown>
            <!--我的订单-->
        <el-dropdown trigger="hover">
-<el-badge value="new" class="item">
+<el-badge  class="item">
   <el-button round size="medium">我的订单</el-button>
 </el-badge>
   <el-dropdown-menu slot="dropdown">
-    <router-link to="/UserRepair"><el-dropdown-item>投诉维修</el-dropdown-item></router-link>
-   <router-link to="/UserOrder"><el-dropdown-item>历史订单</el-dropdown-item> </router-link>
+    <router-link to="/Repair"><el-dropdown-item>订单管理</el-dropdown-item></router-link>
+   <router-link to="/myhisorder"><el-dropdown-item>历史订单</el-dropdown-item> </router-link>
   </el-dropdown-menu>
 </el-dropdown>
   </span>
