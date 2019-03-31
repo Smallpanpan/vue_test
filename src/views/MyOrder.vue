@@ -119,10 +119,12 @@
 <script>
   import store from '@/store/store'
   import axios from 'axios'
+  // import { mapGetters, mapActions,mapMutations } from 'vuex'
     export default {
         name: "MyOrder",
       data(){
           return{
+            carstatus_id:'',
             end:'',
             start:'',
             fuel:'',
@@ -194,6 +196,16 @@
 
       },
       methods:{
+        //修改store的api
+        // ...mapMutations({
+        //   addcarstatus_id:'addcarstatus_id',
+        //   addstatus:'addstatus',
+        //   addinsurance_id:' addinsurance_id',
+        //   addsite_id:'addsite_id',
+        //   addasset_id:'asset_id',
+        //
+        // }),
+        //时间戳转时间
         timestampToTime(timestamp) {
           var date = new Date(timestamp);//时间戳转时间
           var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '月';
@@ -207,6 +219,10 @@
         quit()
         {
           this.$router.push({name:'CarsList'});
+          // axios.post('api/Car/quitOrder',{
+          //   startTime: sessionStorage.getItem("startTime"),
+          //   carId:sessionStorage.getItem("carid"),
+          // }).then(response=>{});
         },
         //结算
         add()
@@ -273,13 +289,40 @@
               this.lng = res.data.lng;
               this.lat = res.data.lat;
 
+              this.carstatus_id =res.data.carstatusid;
+              // this.carstatus_id =
+            //将以上信息写入vuex
             })
         },
 
 
         pay(){
+          //真正创建订单
+          //将订单状态改为1（正在进行订单），修改总费用，修改是否有优惠券
+          // $user_id = 5;                //用户ID
+//        $carstatus_id =43 ;      //临时订单编号
+//        $status =1;                  //支付状态
+//        $insurance_id =1;      //保险ID
+//        $site_id =1003;               //网点ID
+//        $asset_id =1;              //优惠券ID
+//           返回车辆正在进行的订单ID，并写入session
           if(1){
-            this.$router.push({name:'error'});
+            this.$router.push({name:'Repair'});
+            axios.post('api/Order/createorder',{
+              userid:localStorage.getItem("uid"),              //用户ID
+              carstatus_id :this.carstatus_id,      //临时订单编号
+              status :1,                  //支付状态
+              insurance_id :1,      //保险ID
+              site_id :sessionStorage.getItem("pickUp"),                //网点ID
+              asset_id :1,              //优惠券ID
+            }).then(response=>{
+              let res =response.data;
+              sessionStorage.setItem("orderId",res.order_id);
+              sessionStorage.setItem ("astart",this.start);
+              sessionStorage.setItem ("system_id",this.system);
+              sessionStorage.setItem ("location",this.this.location);
+
+            });
           }else{
             this.$message({
               type: 'warning',
@@ -297,21 +340,16 @@
         let end = sessionStorage.getItem("endTime");
         let cId = sessionStorage.getItem("carid");
         let id = localStorage.getItem("uid");
-        let stid = sessionStorage.getItem("pickUp")
+        let stid = sessionStorage.getItem("pickUp");
         this.downloadMessage(start,end,cId,id,stid);
           },
       beforeRouteEnter (to, from, next) {
         // 导航守卫，进入该组件的对应路由时调用
         if (store.state.orderselect){      //如果没有输入则返回上一个页面
 
-          // next(vm => {
-          //     // 通过 `vm` 访问组件实例
-          //   vm.$router.go(-1);
-          //   });
           next({
             name: 'error'
-            // query: { redirect: to.fullPath},
-            // params:{err:1}
+
           })
         }else{
           next()
@@ -319,12 +357,12 @@
       },
     //  离开组件路由守卫（即离开是会提醒是否离开）
       beforeRouteLeave (to, from , next) {
-        this.$confirm('订单正在进行中, 是否取消订单?', '提示', {
+        this.$confirm('订单正在进行中,是否已经付款订单?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.post('api/public/Car/quitOrder',{
+          axios.post('api/Car/quitOrder',{
             startTime: sessionStorage.getItem("startTime"),
             carId:sessionStorage.getItem("carid"),
           }).then(response=>{});

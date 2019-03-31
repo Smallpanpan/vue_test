@@ -7,23 +7,23 @@
         <router-view  class="app-router-view"></router-view>
       </transition>
     </div>
+<!--<div class="footer">-->
+  <!--&lt;!&ndash;<NavBottom></NavBottom>&ndash;&gt;-->
+<!--</div>-->
 
-    <div class="footer">
-      <NavBottom></NavBottom>   <!-- 底部导航 -->
-    </div>
 
   </div>
 </template>
 
 <script>
   import NavHeader from './components/NavHeader'
-  import NavBottom from './components/NavBottom'
+  // import NavBottom from './components/NavBottom'
 export default {
   name: 'App',
 
   components:{
     'NavHeader': NavHeader,
-    'NavBottom': NavBottom
+    // 'NavBottom': NavBottom
   },
 }
 </script>
@@ -36,7 +36,7 @@ export default {
   /*color: #ffffff;*/
   margin: 0px;
   transition: all 1s;
-  height:100%;
+  /*height:100%;*/
 
 }
 *{
@@ -64,11 +64,14 @@ export default {
 </style>
 <style scoped>
   .icon {
-    font-size: 50px;
+    font-size: 20px;
     width: 1em; height: 1em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
   }
+/*.footer{*/
+  /*position: relative;*/
+/*}*/
 
 </style>

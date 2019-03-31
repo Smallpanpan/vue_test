@@ -125,19 +125,24 @@
      </el-row>
 
 
+
+
  </div>
 </template>
 
 <script>
   // <!--引用store的公共数据-->
+
   import './../assets/css/login.css'
   import testpower from './testpower'
   import { mapGetters, mapActions,mapMutations } from 'vuex'
   import { Loading } from 'element-ui';
   import axios from 'axios'
   import md5 from 'js-md5'
+
     export default {
         name: "NavHeader",
+
       //本组件内的数据
       data(){
         /*插入登录form方法*/
@@ -349,10 +354,7 @@
           desnamea:'desname',
           outlogina:'outlogin',
           outipowera:'outipower',
-          //test
-          // cstartTime:'changestartTime',
-          // cendTime:'changeendTime',
-          // ccarSite:'changecarSite',
+
         }),
         //得到前端的cookie
 
@@ -484,6 +486,7 @@
               if(res.status=='1'){   //显示登录结果
                 //写store
                 localStorage.setItem("num",this.ruleForm2.num);
+                sessionStorage.setItem("num",this.ruleForm2.num);
                 this.dialogFormVisible = false;
                 this.addname(res.name);
                 this.adduid(res.u_id);

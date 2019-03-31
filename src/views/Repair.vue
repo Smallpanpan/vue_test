@@ -89,39 +89,61 @@
         //投诉回复内容
         message:[
           {
-            mess:"你省省吧，别投诉了",
+            mess:"已经收到你的投诉投诉了",
             time:"2018年12月13日"
           },
           {
-            mess:"你省省吧，别投诉了",
+            mess:"已经收到你的投诉投诉了",
             time:"2018年12月13日"
           },
+
 
         ],
 
         DataOption: {
-          data:[
-            //测试数据
-            {all_price: 500,
-              location: "韶关市韶关学院店",
-              system_id: "Audi Sport-奥迪TT RS",
-              astart:20123564556,
-              aend:12345645,
-              start:123456565613,
-              end:15615656,
-              progress:4},
-
-
-          ],
+          data:[{ all_price: 500,
+            location: "韶关市韶关学院店",
+            system_id: " RS",
+            astart:20123564556,
+            aend:12345645,
+            start:123456565613,
+            end:15615656,
+            progress:4,}]
         },
       }
 
     },
-    created() {},
-    mounted() {},
+    created() {
+
+      },
+    mounted() {
+       this.getMyOrder();
+      },
     watch: {},
     computed: {},
+    updated(){
+      //  this.getMyOrder();
+
+    },
     methods: {
+      //获取订单列表数据
+      //获取progress:、all_price: 500
+      getMyOrder()
+      {
+        axios.post('/api/Order/test',{
+          orderId:sessionStorage.getItem("orderId"),
+        }).then(response => {
+          let res = response.data;
+          this.DataOption.data[0].progress =res.progress ;
+          this.DataOption.data[0].all_price =res.all_price ;
+          this.DataOption.data[0].location =sessionStorage.getItem("location");
+          this.DataOption.data[0].system_id =sessionStorage.getItem("system_id");
+          this.DataOption.data[0].astart =sessionStorage.getItem("astart");
+          this.DataOption.data[0].aend =sessionStorage.getItem("aend");
+          this.DataOption.data[0].start =this.timestampToTime( parseInt(sessionStorage.getItem("startTime")));
+          this.DataOption.data[0].end =this.timestampToTime( parseInt(sessionStorage.getItem("endTime")));
+        })
+      },
       //  时间戳转时间函数
       timestampToTime(timestamp) {
         var date = new Date(timestamp);//时间戳转时间

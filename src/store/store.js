@@ -12,7 +12,12 @@ const state = {
   startTime:'',
   endTime:'',
   carSite:'',
-  userid:'',
+  userid:'',              //用户ID
+  carstatus_id :'',      //临时订单编号
+  status :'',                  //支付状态
+  insurance_id :'',      //保险ID
+  site_id :'',                //网点ID
+  asset_id :'',              //优惠券ID
 }
 
 // 然后给 actions 注册事件处理函数，当这个函数被触发时，将状态提交到 mutaions中处理
@@ -51,6 +56,29 @@ const mutations = {
   changecarSite(state,na) {
     state.carSite=na
   },
+//  写入订单临时数据
+//   userid:'',              //用户ID
+//   $carstatus_id :'',      //临时订单编号
+//   $status :'',                  //支付状态
+//   $insurance_id :'',      //保险ID
+//   $site_id :'',                //网点ID
+//   $asset_id :'',              //优惠券ID
+  addcarstatus_id(state,na) {
+    state.carstatus_id=na
+  },
+  addstatus(state,na) {
+    state.status=na
+  },
+  addinsurance_id(state,na) {
+    state.insurance_id=na
+  },
+  addsite_id(state,na) {
+    state.site_id=na
+  },
+  addasset_id(state,na) {
+    state.asset_id=na
+  },
+
 //  desname:'desname',
 //           outlogin:'outlogin',
 //           outipower:'outlogin',
