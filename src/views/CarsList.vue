@@ -108,8 +108,6 @@
   import iconfont from './../assets/svg/iconfont'
     export default {
 
-
-
         name: "GoodsList",
       components: {
          nxDataCard,
@@ -146,19 +144,90 @@
             }
       },
       mounted(){
-        this.playup();
-      let site=this.$route.params.selectsite;
-      if(site.value.length>0){
-        this.site=site.site;
-        this.postCarlist(site.site,site.value);
 
-      }
       },
       updated(){
-        this.playup();
+
       },
       created() {
+         this.playup();
+
+          if(this.easyDataOption0.data.length>0){       //把上一次请求的数据清空
+            let len = this.easyDataOption0.data.length;
+            this.easyDataOption0.data.splice(0,len);
+          };
+          //每次更新页面所要做的操作（重选汽车）
+          axios.post('/api/Car/selectcar',{
+            pickUp:sessionStorage.getItem("pickUp"),
+            startTime:sessionStorage.getItem("startTime"),
+            endTime:sessionStorage.getItem("endTime"),
+          }).then(response => {
+            let res = response.data;// 现在后台返回的是一组汽车信息数组（这是二维数组）[{"car_brand":"奥迪","car_series":"Q3"},{"car_brand":"奥迪1","car_series":"Q5"},]
+            if(res.status==1){
+              this.$alert('你选择时段的车车已经租完啦！', '提示', {   //返回其他情况
+                confirmButtonText: '确定'
+              });
+            }else {
+              if(res[0].car_seat){
+                for(var i = 0,l = res.length; i < l; i++){
+                  this.easyDataOption0.data.push(                               //如果符合条件则将返回的数据渲染到前台数组中
+                    {
+                      car_photo_url:res[i].car_photo_url,
+                      car_brand :res[i].system_id,
+                      car_series:res[i].car_series,
+                      car_type:res[i].car_type,
+                      car_displacement:res[i].car_displacement,
+                      car_seat:res[i].car_seat,
+                      car_daily_price:res[i].car_daily_price,
+                      car_fuel:res[i].car_fuel,
+                      car_volume:res[i].car_volume,
+                      car_drive:res[i].car_drive,
+                      car_Airbag:res[i].car_Airbag,
+                      car_id:res[i].carid,
+                      carshow:true,
+                      carprice:true,
+
+                      //   ["system_id"] => 车系
+                      // ["id"] => 车系ID
+                      // ["car_color"] => 车颜色
+                      // ["car_production_time"] => 出厂时间
+                      // ["car_photo_url"] => 图片URL
+                      // ["car_type"] => 汽车类型
+                      // ["car_seat"] => 汽车座位
+                      // ["car_fuel"] => 汽车燃油
+                      // ["car_displacement"] => 汽车功率
+                      // ["car_daily_price"] => 日租价格
+                      // ["car_monthly_price"] => 月租价格
+                      // ["car_volume"] =>续航能力
+                      // ["car_drive"] => 驱动类型
+                      // ["car_Airbag"] => 安全气囊
+                      // ["carid"] => 汽车唯一ID
+                    }
+                  );
+
+                  // carArr是临时一维数组，每次取回res中的子数组，然后carArr push 进data（data也是二维数组）
+
+                }
+              }else{
+                this.$message({
+                  type: 'error',
+                  message: '连接服务器失败！'
+                });
+              }
+
+
+            }
+
+          })
+
         // postCarlist()
+        // this.playup();
+        // let site=this.$route.params.selectsite;
+        // if(site.value.length>0){
+        //   this.site=site.site;
+        //   this.postCarlist(site.site,site.value);
+        //
+        // }
       },
       watch:{
         value_price: function(){
@@ -339,75 +408,7 @@
         },
 
       },
-      updated() {
-        if(this.easyDataOption0.data.length>0){       //把上一次请求的数据清空
-          let len = this.easyDataOption0.data.length;
-          this.easyDataOption0.data.splice(0,len);
-        };
-        //每次更新页面所要做的操作（重选汽车）
-        axios.post('/api/Car/selectcar',{
-          pickUp:sessionStorage.getItem("pickUp"),
-          startTime:sessionStorage.getItem("startTime"),
-          endTime:sessionStorage.getItem("endTime"),
-        }).then(response => {
-          let res = response.data;// 现在后台返回的是一组汽车信息数组（这是二维数组）[{"car_brand":"奥迪","car_series":"Q3"},{"car_brand":"奥迪1","car_series":"Q5"},]
-          if(res.status==1){
-            this.$alert('你选择时段的车车已经租完啦！', '提示', {   //返回其他情况
-              confirmButtonText: '确定'
-            });
-          }else {
-            if(res[0].car_seat){
-              for(var i = 0,l = res.length; i < l; i++){
-                this.easyDataOption0.data.push(                               //如果符合条件则将返回的数据渲染到前台数组中
-                  {
-                    car_photo_url:res[i].car_photo_url,
-                    car_brand :res[i].system_id,
-                    car_series:res[i].car_series,
-                    car_type:res[i].car_type,
-                    car_displacement:res[i].car_displacement,
-                    car_seat:res[i].car_seat,
-                    car_daily_price:res[i].car_daily_price,
-                    car_fuel:res[i].car_fuel,
-                    car_volume:res[i].car_volume,
-                    car_drive:res[i].car_drive,
-                    car_Airbag:res[i].car_Airbag,
-                    car_id:res[i].carid,
-                    carshow:true,
-                    carprice:true,
 
-                    //   ["system_id"] => 车系
-                    // ["id"] => 车系ID
-                    // ["car_color"] => 车颜色
-                    // ["car_production_time"] => 出厂时间
-                    // ["car_photo_url"] => 图片URL
-                    // ["car_type"] => 汽车类型
-                    // ["car_seat"] => 汽车座位
-                    // ["car_fuel"] => 汽车燃油
-                    // ["car_displacement"] => 汽车功率
-                    // ["car_daily_price"] => 日租价格
-                    // ["car_monthly_price"] => 月租价格
-                    // ["car_volume"] =>续航能力
-                    // ["car_drive"] => 驱动类型
-                    // ["car_Airbag"] => 安全气囊
-                    // ["carid"] => 汽车唯一ID
-                  }
-                );
-
-                // carArr是临时一维数组，每次取回res中的子数组，然后carArr push 进data（data也是二维数组）
-
-              }
-            }else{
-              this.$message({
-                type: 'error',
-                message: '连接服务器失败！'
-              });
-            }
-
-
-          }
-
-        })
-      },
     }
 </script>
 

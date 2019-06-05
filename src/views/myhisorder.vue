@@ -20,15 +20,6 @@
         DataOption: {
           data:[
             //测试数据
-            {all_price: 500,
-              location: "韶关市韶关学院店",
-              system_id: "Audi Sport-奥迪TT RS",
-              astart:20123564556,
-              aend:12345645,
-              start:123456565613,
-              end:15615656,
-              progress:4},
-
 
           ],
         },
@@ -36,7 +27,7 @@
 
     },
     created() {},
-    mounted() {},
+    mounted() {this.gethisorder();},
     watch: {},
     computed: {},
     methods: {
@@ -51,8 +42,8 @@
         return M+D+h+m;
       },
       //  获取后台订单数据方法
-      gethisorder(uid){
-        axios.get('/api/myorder/gethisorder',{id:uid}).then(response => {
+      gethisorder(){
+        axios.post('/api/Order/gethisorder',{userid:localStorage.getItem("uid"),}).then(response => {
           let res = response.data;      //返回历史订单数组
           let len = res.length;
           if(len ==0){
@@ -64,15 +55,13 @@
           for(var i =0; i < len; i++){
             this.DataOption.data.push(
               {
-                all_price:res[i].all_price ,
-                location:res[i].location ,
+                all_price:res[i].o_all_price,
+                location:"韶关市韶关学院店",
                 system_id:res[i].system_id ,
-                astart:this.timestampToTime(res[i].astart),
-                aend:this.timestampToTime(res[i].aend),
-                start:this.timestampToTime(res[i].start),
-                end:this.timestampToTime(res[i].end),
-                progress:4,
-
+                astart:res[i].astart,
+                aend:res[i].aend,
+                end:res[i].end,
+                progress:3,
               }
             );
           }

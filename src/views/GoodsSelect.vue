@@ -24,7 +24,7 @@
     <!--v-for="item in img" :key="item"-->
     <div class="fig">
       <figure>
-        <img src="//static.wkzuche.com/www/images/index/range_icon.png">
+        <img src="http://localhost:8889/carphoto/range_icon.png">
         <figcaption>
           <div>快速出车</div>
           <p>下单5分钟内即可出车</p>
@@ -33,7 +33,7 @@
         </figcaption>
       </figure>
       <figure>
-        <img src="//static.wkzuche.com/www/images/index/optional-vehicle-icon.png">
+        <img src="http://localhost:8889/carphoto/optional-vehicle-icon.png">
         <figcaption>
           <div>可选车辆多</div>
           <p>200+车型</p>
@@ -41,7 +41,7 @@
         </figcaption>
       </figure>
       <figure>
-        <img src="//static.wkzuche.com/www/images/index/service_icon.png">
+        <img src="http://localhost:8889/carphoto/service_icon.png">
         <figcaption>
           <div>品质服务好</div>
           <p>7*24H专属客服</p>
@@ -200,6 +200,8 @@
               });
             }else{
               // console.log('test')
+              sessionStorage.setItem("startTime",stime[0]);     //记住选着时间
+              sessionStorage.setItem("endTime",stime[1]);
                this.$router.push({ name: 'CarsList',params: { selectsite:this.si}});
 
             }

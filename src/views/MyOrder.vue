@@ -1,10 +1,10 @@
 <template>
 <div class="order">
-  <el-steps :active="2" align-center class="step">
-    <el-step title="选择车辆" icon="el-icon-success"></el-step>
-    <el-step title="确认订单、付款" icon="el-icon-loading"></el-step>
-    <el-step title="订单完成" icon="el-icon-edit-outline"></el-step>
-  </el-steps>
+  <!--<el-steps :active="2" align-center class="step">-->
+    <!--<el-step title="选择车辆" icon="el-icon-success"></el-step>-->
+    <!--<el-step title="确认订单、付款" icon="el-icon-loading"></el-step>-->
+    <!--<el-step title="订单完成" icon="el-icon-edit-outline"></el-step>-->
+  <!--</el-steps>-->
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <h3>车辆信息</h3>
@@ -68,15 +68,6 @@
       </el-option>
     </el-select>
 
-    <el-select v-model="tableprice[5].allnum" placeholder="请优惠类型" >
-      <el-option
-        v-for="item in options1"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value" @click="add">
-      </el-option>
-
-    </el-select>
 
 
 
@@ -94,9 +85,9 @@
   </el-card>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <h3>确认支付</h3>
+      <h3>确认订单</h3>
     </div>
-    <el-button @click="pay">我已经付款</el-button>
+    <el-button @click="pay">确认</el-button>
     <el-button @click="quit">取消订单</el-button>
   </el-card>
 
@@ -159,11 +150,11 @@
               num: '',
               allnum: ''
             }, {
-              price: '超过4小时部分',
+              price: '超出4小时',
               num: '',
               allnum: ''
             },{
-              price: '超过8小时部分',
+              price: '超出8小时',
               num: '',
               allnum: ''
             }, {
@@ -171,7 +162,7 @@
               num:'' ,
               allnum:''
             },  {
-              price: '优惠券',
+              price: '',
               num:'' ,
               allnum:''
             }, {
@@ -219,10 +210,10 @@
         quit()
         {
           this.$router.push({name:'CarsList'});
-          // axios.post('api/Car/quitOrder',{
-          //   startTime: sessionStorage.getItem("startTime"),
-          //   carId:sessionStorage.getItem("carid"),
-          // }).then(response=>{});
+          axios.post('api/Car/quitOrder',{
+            startTime: sessionStorage.getItem("startTime"),
+            carId:sessionStorage.getItem("carid"),
+          }).then(response=>{});
         },
         //结算
         add()
@@ -313,8 +304,7 @@
               carstatus_id :this.carstatus_id,      //临时订单编号
               status :1,                  //支付状态
               insurance_id :1,      //保险ID
-              site_id :sessionStorage.getItem("pickUp"),                //网点ID
-              asset_id :1,              //优惠券ID
+              site_id :1003,                //网点ID
             }).then(response=>{
               let res =response.data;
               sessionStorage.setItem("orderId",res.order_id);
@@ -340,8 +330,8 @@
         let end = sessionStorage.getItem("endTime");
         let cId = sessionStorage.getItem("carid");
         let id = localStorage.getItem("uid");
-        let stid = sessionStorage.getItem("pickUp");
-        this.downloadMessage(start,end,cId,id,stid);
+        // let stid = sessionStorage.getItem("pickUp");
+        this.downloadMessage(start,end,cId,id);
           },
       beforeRouteEnter (to, from, next) {
         // 导航守卫，进入该组件的对应路由时调用
@@ -357,15 +347,15 @@
       },
     //  离开组件路由守卫（即离开是会提醒是否离开）
       beforeRouteLeave (to, from , next) {
-        this.$confirm('订单正在进行中,是否已经付款订单?', '提示', {
+        this.$confirm('订单正在进行中,是否确认', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.post('api/Car/quitOrder',{
-            startTime: sessionStorage.getItem("startTime"),
-            carId:sessionStorage.getItem("carid"),
-          }).then(response=>{});
+          // axios.post('api/Car/quitOrder',{
+          //   startTime: sessionStorage.getItem("startTime"),
+          //   carId:sessionStorage.getItem("carid"),
+          // }).then(response=>{});
           next()
         }).catch(() => {
           next(false)

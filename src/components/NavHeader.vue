@@ -56,11 +56,11 @@
                    <el-input v-model="ruleForm1.name"></el-input>
              </el-form-item>
                <el-form-item label="电话号码" prop="num">
-                  <el-input v-model.number="ruleForm1.num"  > <el-button slot="append"  icon="el-icon-message">获取验证码</el-button></el-input>
+                  <el-input v-model.number="ruleForm1.num"  ></el-input>
                 </el-form-item>
-                <el-form-item label="验证码" prop="code">
-                  <el-input v-model="ruleForm1.code" ></el-input>
-                </el-form-item>
+                <!--<el-form-item label="验证码" prop="code">-->
+                  <!--<el-input v-model="ruleForm1.code" ></el-input>-->
+                <!--</el-form-item>-->
                <el-form-item label="密码" prop="pass">
                   <el-input type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
                 </el-form-item>
@@ -105,8 +105,7 @@
 </el-badge>
   <el-dropdown-menu slot="dropdown">
     <router-link to="/UserChange">  <el-dropdown-item>账号管理</el-dropdown-item> </router-link>
-    <router-link to="/UserAssets"> <el-dropdown-item>我的资产</el-dropdown-item> </router-link>
-    <el-dropdown-item @click.native="loginOut">退出登录</el-dropdown-item>
+    <a href="http://localhost:8087"> <el-dropdown-item @click.native="loginOut">退出登录</el-dropdown-item></a>
   </el-dropdown-menu>
 </el-dropdown>
            <!--我的订单-->

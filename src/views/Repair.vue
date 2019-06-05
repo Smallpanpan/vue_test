@@ -1,24 +1,21 @@
 <!--这是对正在进行的订单的管理：有投诉、维护、续租、还车功能-->
 <template>
   <div class="his">
-    <p>正在进行的订单</p>
+    <p>还车和换车申请</p>
     <cardHistory :option="DataOption"></cardHistory>
 
     <div class="his1">
       <el-row span="24">
-        <el-col span="6"><div class="block">
-          <span class="demonstration"></span>
-          <el-date-picker
-            v-model="value1"
-            type="datetime"
-            placeholder="请选择续租时间">
-          </el-date-picker>
-        </div>
-        </el-col>
-        <el-col span="3"><el-button type="primary"><b>续租</b></el-button></el-col>
-        <el-col span="7"><el-button type="success" round @click="submitReturn()"><b>一键还车</b></el-button></el-col>
-      </el-row>
-      <el-row span="24">
+        <!--<el-col span="6"><div class="block">-->
+          <!--<span class="demonstration"></span>-->
+          <!--<el-date-picker-->
+            <!--v-model="value1"-->
+            <!--type="datetime"-->
+            <!--placeholder="请选择续租时间">-->
+          <!--</el-date-picker>-->
+        <!--</div>-->
+        <!--</el-col>-->
+        <!--<el-col span="3"><el-button type="primary"><b>续租</b></el-button></el-col>-->
         <el-col span="6">
           <el-select v-model="value" placeholder="请选择维修类型">
             <el-option
@@ -29,29 +26,34 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col span="3"><el-button type="primary" @click="submitRepair"><b>维修</b></el-button></el-col>
+        <el-col span="3"><el-button type="primary" @click="submitRepair"><b>换车</b></el-button></el-col>
+        <el-col span="7"><el-button type="success" round @click="submitReturn()"><b>一键还车</b></el-button></el-col>
+
+      </el-row>
+      <el-row span="24">
+
         <el-col span="2">&nbsp;</el-col>
         <el-col span="8">
-          <el-input
-            type="textarea"
-            :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入投诉内容内容"
-            v-model="complaint">
-          </el-input>
+          <!--<el-input-->
+            <!--type="textarea"-->
+            <!--:autosize="{ minRows: 2, maxRows: 4}"-->
+            <!--placeholder="请输入投诉内容内容"-->
+            <!--v-model="complaint">-->
+          <!--</el-input>-->
         </el-col>
-        <el-col span="4"> <el-button type="primary" @click="submitCom"><b>投诉</b></el-button></el-col>
+        <!--<el-col span="4"> <el-button type="primary" @click="submitCom"><b>投诉</b></el-button></el-col>-->
       </el-row>
 
-      <div class="block1">
-        <h4>投诉回复：</h4></div></br>
-        <el-timeline>
-          <el-timeline-item  placement="top" v-for="(item, i) in message" >
-            <el-card class="block1">
-              <h4>{{item.mess}}</h4>
-              <p>{{item.time}}</p>
-            </el-card>
-          </el-timeline-item>
-        </el-timeline>
+      <!--<div class="block1">-->
+        <!--<h4>投诉回复：</h4></div></br>-->
+        <!--<el-timeline>-->
+          <!--<el-timeline-item  placement="top" v-for="(item, i) in message" >-->
+            <!--<el-card class="block1">-->
+              <!--<h4>{{item.mess}}</h4>-->
+              <!--<p>{{item.time}}</p>-->
+            <!--</el-card>-->
+          <!--</el-timeline-item>-->
+        <!--</el-timeline>-->
       </div>
     </div>
 
@@ -72,17 +74,17 @@
       return{
         complaint:'',   //投诉内容
         options: [{
-          value: '1',
+          value: '汽车车胎爆了',
           label: '汽车车胎爆了'
         }, {
-          value: '2',
+          value: '汽车没油了/没电了',
           label: '汽车没油了/没电了'
         }, {
-          value: '3',
+          value: '无法发动，故障不明',
           label: '无法发动，故障不明'
         }, {
-          value: '4',
-          label: '其他维修'
+          value: '其他故障',
+          label: '其他故障'
         },
         ],
         value: '',
@@ -104,11 +106,11 @@
           data:[{ all_price: 500,
             location: "韶关市韶关学院店",
             system_id: " RS",
-            astart:20123564556,
-            aend:12345645,
-            start:123456565613,
-            end:15615656,
-            progress:4,}]
+            astart:"4月2日8:00",
+            aend:"4月3日8:00",
+            start:"4月4日8:00",
+            end:"4月4日8:00",
+            progress:3,}]
         },
       }
 
@@ -128,20 +130,22 @@
     methods: {
       //获取订单列表数据
       //获取progress:、all_price: 500
+      // <el-step title="取车" icon="el-icon-caret-top" :description="item.astart"></el-step>
+    // <el-step title="还车" icon="el-icon-caret-bottom" :description="item.aend"></el-step>
+    // <el-step title="订单完成" icon="el-icon-success" :description="item.end"></el-step>
       getMyOrder()
       {
         axios.post('/api/Order/test',{
           orderId:sessionStorage.getItem("orderId"),
         }).then(response => {
           let res = response.data;
-          this.DataOption.data[0].progress =res.progress ;
+          this.DataOption.data[0].progress =2;
           this.DataOption.data[0].all_price =res.all_price ;
-          this.DataOption.data[0].location =sessionStorage.getItem("location");
-          this.DataOption.data[0].system_id =sessionStorage.getItem("system_id");
-          this.DataOption.data[0].astart =sessionStorage.getItem("astart");
-          this.DataOption.data[0].aend =sessionStorage.getItem("aend");
-          this.DataOption.data[0].start =this.timestampToTime( parseInt(sessionStorage.getItem("startTime")));
-          this.DataOption.data[0].end =this.timestampToTime( parseInt(sessionStorage.getItem("endTime")));
+          this.DataOption.data[0].location ="韶关市韶关学院店";
+          this.DataOption.data[0].system_id =res.system_id;
+          this.DataOption.data[0].astart=res.o_start;
+          this.DataOption.data[0].aend =res.o_end;
+          this.DataOption.data[0].end =0;
         })
       },
       //  时间戳转时间函数
@@ -189,7 +193,9 @@
             type: 'warning'
           });
         }else{
-          axios.post('/api/myorder/getrep',{retype:this.value}).then(response => {
+          axios.post('/api/Order/getrep',{
+            retype:this.value,
+            orderId:sessionStorage.getItem("orderId")}).then(response => {
           });
           this.$message({
             message: '提交成功！',
@@ -198,21 +204,21 @@
         }
       },
       //  提交投诉内容
-      submitCom(){
-        if(!this.complaint){
-          this.$message({
-            message: '请输入您要投诉的内容',
-            type: 'warning'
-          });
-        }else{
-          axios.post('/api/myorder/getcom',{retype:this.complaint}).then(response => {
-          });
-          this.$message({
-            message: '提交成功！',
-            type: 'success'
-          });
-        }
-      },
+      // submitCom(){
+      //   if(!this.complaint){
+      //     this.$message({
+      //       message: '请输入您要投诉的内容',
+      //       type: 'warning'
+      //     });
+      //   }else{
+      //     axios.post('/api/myorder/getcom',{retype:this.complaint}).then(response => {
+      //     });
+      //     this.$message({
+      //       message: '提交成功！',
+      //       type: 'success'
+      //     });
+      //   }
+      // },
     //  提交还车
       submitReturn(){
         this.$confirm('是否确认还车?', '提示', {
@@ -220,7 +226,11 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.post('/api/myorder/putReturn').then(response =>{});
+          axios.post('/api/Order/putReturn',{
+            orderId:sessionStorage.getItem("orderId"),
+          }).then(response =>{
+
+          });
         }).catch(() => {
           next(false)
         });
